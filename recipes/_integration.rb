@@ -66,3 +66,17 @@ file '/var/www/zend.example.com/current/public/index.php' do
   PHP
 end
 
+
+# PHP application with settings changed through config hash
+php_application 'config.example.com' do
+  # Change some php settings for the virtual hosts
+  application_config php_values: {memory_limit: '10M'},
+                     php_admin_values: { 'session.name' => 'Custom' },
+                     php_flags: { display_errors: false },
+                     php_admin_flags: { file_uploads: false }
+end
+
+# Site content as a dummy file
+file '/var/www/config.example.com/index.php' do
+  content '<?php phpinfo();'
+end

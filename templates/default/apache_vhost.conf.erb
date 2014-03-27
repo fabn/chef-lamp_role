@@ -7,6 +7,19 @@
   SetEnv APPLICATION_ENV <%= @params[:application_environment] %>
   <%- end -%>
 
+  <%- @params[:php_flags].each do |flag, value| -%>
+  php_flag <%= flag -%> <%= !!value ? 'on' : 'off' %>
+  <%- end -%>
+  <%- @params[:php_admin_flags].each do |flag, value| -%>
+  php_admin_flag <%= flag -%> <%= !!value ? 'on' : 'off' %>
+  <%- end -%>
+  <%- @params[:php_values].each do |name, value| -%>
+  php_value <%= name -%> "<%= value %>"
+  <%- end -%>
+  <%- @params[:php_admin_values].each do |name, value| -%>
+  php_admin_value <%= name -%> "<%= value %>"
+  <%- end -%>
+
   <%- if @params[:ssl] -%>
   SSLEngine On
   SSLCertificateFile <%= File.join(node[:ssl][:certs_dir], "#{@params[:ssl_cert]}.crt") %>

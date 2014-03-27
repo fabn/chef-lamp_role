@@ -81,4 +81,26 @@ describe 'Dummy applications' do
 
   end
 
+  describe 'config.example.com' do
+
+    # Test that directives have effect
+    describe command(%q{curl -s -H 'Host: config.example.com' localhost}) do
+
+      it { should return_stdout %r{<td class="e">memory_limit</td><td class="v">10M</td>} }
+      it { should return_stdout %r{<td class="e">session.name</td><td class="v">Custom</td>} }
+      it { should return_stdout %r{<td class="e">display_errors</td><td class="v">Off</td>} }
+      it { should return_stdout %r{<td class="e">file_uploads</td><td class="v">Off</td>} }
+
+    end
+
+    # Virtual host configuration
+    describe file('/etc/apache2/sites-available/config.example.com.conf') do
+
+      %w(php_value php_admin_value php_flag php_admin_flag).each do |php_directive|
+        it { should contain php_directive }
+      end
+    end
+
+  end
+
 end

@@ -19,6 +19,11 @@ define :php_application, enable: true do
           mysql: false,
           users: [],
           document_root: nil,
+          # Used to change php settings through attributes
+          php_values: {},
+          php_admin_values: {},
+          php_flags: {},
+          php_admin_flags: {},
       }).merge(application_config)
 
   # Create application folder
@@ -99,6 +104,11 @@ define :php_application, enable: true do
     end
     # Conditional support for canonical hostname
     canonical_hostname options[:canonical_hostname]
+    # Give template the list of php directives to configure
+    php_values options[:php_values]
+    php_admin_values options[:php_admin_values]
+    php_flags options[:php_flags]
+    php_admin_flags options[:php_admin_flags]
   end
 
 end
