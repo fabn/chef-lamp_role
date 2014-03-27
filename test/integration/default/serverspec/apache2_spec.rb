@@ -22,4 +22,22 @@ describe 'Apache Installation' do
 
   end
 
+  describe 'Server Status' do
+
+    describe package('w3m') do
+      it { should be_installed }
+    end
+
+    describe command('apache2ctl status') do
+      it { should return_exit_status(0) }
+      it { should return_stdout /Apache Server Status for localhost/ }
+    end
+
+    # Access status location from any other hostname than localhost, so it should not get status variables
+    describe command('APACHE_STATUSURL=http://10.0.2.15/server-status apache2ctl status') do
+      it { should return_stdout /Forbidden/ }
+    end
+
+  end
+
 end

@@ -12,5 +12,8 @@ default[:apache][:prefork][:serverlimit]         = 200
 default[:apache][:prefork][:maxclients]          = 200
 default[:apache][:prefork][:maxrequestsperchild] = 10_000
 
+# Additional attributes for apache default recipe
+default[:lamp][:www_browser] = 'w3m' # Name of a package which provides www-browser
+
 # Default php modules
 default[:lamp][:php_modules] = %w(mysql gd apc curl)

@@ -19,3 +19,6 @@
 
 # Install apache webserver
 include_recipe 'apache2'
+
+# This package is needed to make apache2ctl status working
+package(node[:lamp][:www_browser])
