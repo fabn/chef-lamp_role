@@ -1,7 +1,7 @@
 # Default attributes for php applications
 default[:php_applications][:applications_bag] = 'php_applications'
 # Default base path for php application
-default[:php_applications][:apps_path] = '/var/www'
+default[:php_applications][:apps_path] = node[:apache][:docroot_dir]
 
 # User and group used to run the application
 default[:php_applications][:user] = node[:apache][:user]
