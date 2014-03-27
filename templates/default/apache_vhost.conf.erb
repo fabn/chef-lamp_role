@@ -3,6 +3,10 @@
   ServerAlias <% (@params[:server_aliases] || []).each do |a| %><%= a %> <% end %>
   DocumentRoot <%= @params[:document_root] %>
 
+  <%- if @params[:application_environment] -%>
+  SetEnv APPLICATION_ENV <%= @params[:application_environment] %>
+  <%- end -%>
+
   <%- if @params[:ssl] -%>
   SSLEngine On
   SSLCertificateFile <%= File.join(node[:ssl][:certs_dir], "#{@params[:ssl_cert]}.crt") %>

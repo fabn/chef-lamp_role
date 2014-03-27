@@ -15,6 +15,7 @@ define :php_application, enable: true do
           group: node[:php_applications][:group],
           canonical_hostname: application_name,
           capistrano: false,
+          zend_framework: false,
           mysql: false,
           users: [],
           document_root: nil,
@@ -63,7 +64,7 @@ define :php_application, enable: true do
   if options[:document_root]
     document_root = options[:document_root]
   else
-    # Webserver document root, pointed
+    # Webserver document root, optionally using capistrano for deployments
     document_root = options[:capistrano] ? File.join(application_path, 'current') : application_path
     # If it's a ZF application use public folder as document root
     document_root = File.join(document_root, 'public') if options[:zend_framework]
@@ -92,6 +93,10 @@ define :php_application, enable: true do
     ssl options[:ssl]
     # SSL certificate base name as used in ssl recipe
     ssl_cert options[:ssl_cert].gsub('_', '.') if options[:ssl_cert]
+    # ZF app environment configuration
+    if options[:zend_framework] && options[:zend_framework][:environment]
+      application_environment options[:zend_framework][:environment]
+    end
     # Conditional support for canonical hostname
     canonical_hostname options[:canonical_hostname]
   end

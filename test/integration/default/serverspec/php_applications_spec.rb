@@ -63,4 +63,22 @@ describe 'Dummy applications' do
 
   end
 
+  describe 'zend.example.com' do
+
+    # Test that site site is working
+    describe command(%q{curl -s -H 'Host: zend.example.com' localhost}) do
+      it 'should return site content' do
+        should return_stdout /Zend/
+      end
+    end
+
+    # Virtual host configuration
+    describe file('/etc/apache2/sites-available/zend.example.com.conf') do
+      it { should be_file }
+      its(:content) { should match %r{DocumentRoot /var/www/zend.example.com/current/public} }
+      its(:content) { should match %r{SetEnv APPLICATION_ENV production} }
+    end
+
+  end
+
 end

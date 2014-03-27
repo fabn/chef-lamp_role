@@ -46,3 +46,23 @@ file '/var/www/mysql.example.com/index.php' do
   echo 'Connected successfully';
   PHP
 end
+
+# PHP application with ZF, NewRelic and Capistrano
+php_application 'zend.example.com' do
+  # Test some missing features of definition
+  application_config capistrano: true, zend_framework: {environment: 'production'}
+end
+
+# Create structure by hand
+directory '/var/www/zend.example.com/current/public' do
+  recursive true
+end
+
+# Site content as a dummy file
+file '/var/www/zend.example.com/current/public/index.php' do
+  content <<-PHP
+  <?php
+  echo 'Zend';
+  PHP
+end
+
