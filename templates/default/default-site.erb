@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  ErrorLog <%= node[:apache][:log_dir] %>/<%= node[:apache][:error_log] %>
+
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+
+  CustomLog <%= node[:apache][:log_dir] %>/<%= node[:apache][:access_log] %> combined
+  ServerSignature Off
+
+</VirtualHost>

@@ -22,3 +22,12 @@ include_recipe 'apache2'
 
 # This package is needed to make apache2ctl status working
 package(node[:lamp][:www_browser])
+
+# Restrictive version of default site template, which return not found for every request
+template("#{node[:apache][:dir]}/sites-available/default") {
+  source 'default-site.erb'
+  owner 'root'
+  group node[:apache][:root_group]
+  mode '0644'
+  notifies :restart, 'service[apache2]'
+}

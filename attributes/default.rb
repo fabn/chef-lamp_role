@@ -12,6 +12,9 @@ default[:apache][:prefork][:serverlimit]         = 200
 default[:apache][:prefork][:maxclients]          = 200
 default[:apache][:prefork][:maxrequestsperchild] = 10_000
 
+# Default site enabled with deny all configuration
+default[:apache][:default_site_enabled] = true
+
 # Additional attributes for apache default recipe
 default[:lamp][:www_browser] = 'w3m' # Name of a package which provides www-browser
 
