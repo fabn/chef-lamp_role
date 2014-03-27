@@ -19,6 +19,9 @@
 
 # Private recipe used only in integration tests
 
+# Used in integration tests to do commandline assertions
+package 'curl'
+
 # Plain php site with some features on
 php_application 'php.example.com' do
   # Test some features of definition
