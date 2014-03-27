@@ -11,3 +11,5 @@ supports 'ubuntu'
 depends 'mysql_role'
 depends 'apache2'
 depends 'php'
+# Optional dependencies of php_application definition
+depends 'ssl'
