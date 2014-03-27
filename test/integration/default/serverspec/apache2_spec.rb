@@ -12,7 +12,7 @@ describe 'Apache Installation' do
     describe command('apache2 -M') do
 
       # list required modules, list is from attribute file
-      %w[status alias auth_basic authn_file autoindex dir env mime negotiation setenvif rewrite php5].each do |mod|
+      %w[status alias auth_basic authn_file autoindex expires dir env mime negotiation setenvif rewrite php5].each do |mod|
         it "should have installed apache2 #{mod} module" do
           should return_stdout /#{mod}/
         end

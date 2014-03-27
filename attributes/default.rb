@@ -1,7 +1,7 @@
 
 # Default apache modules tuned according to my needs
 default[:apache][:default_modules] = %w(
-  status alias auth_basic authn_file autoindex dir env mime negotiation setenvif rewrite php5
+  status alias auth_basic authn_file autoindex expires dir env mime negotiation setenvif rewrite php5
 )
 
 # Prefork Attributes, tune them according node memory
