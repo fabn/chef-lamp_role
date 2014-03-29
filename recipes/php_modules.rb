@@ -20,3 +20,15 @@
 node[:lamp][:php_modules].each do |mod|
   include_recipe "php::module_#{mod}"
 end
+
+if node[:lamp][:php_modules].include?('apc')
+# Generate apc.ini configuration
+  template '/etc/php5/conf.d/apc.ini' do
+    source 'apc.ini.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    # If this recipe is included without apache2 this can fail
+    notifies :restart, 'service[apache2]' if node.recipe?('apache2')
+  end
+end

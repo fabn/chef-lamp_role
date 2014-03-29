@@ -20,3 +20,8 @@ default[:lamp][:www_browser] = 'w3m' # Name of a package which provides www-brow
 
 # Default php modules
 default[:lamp][:php_modules] = %w(mysql gd apc curl)
+
+# Apc configuration
+default[:lamp][:apc][:memory] = '128M'
+default[:lamp][:apc][:slam_defense] = false
+
