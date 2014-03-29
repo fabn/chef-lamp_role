@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe 'lamp_role::apache2' do
 
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) do
+    ChefSpec::Runner.new do |node|
+      node.set[:apache][:listen_ports] = [8080]
+    end.converge(described_recipe)
+  end
 
   describe 'Server status handler' do
 
@@ -16,6 +20,10 @@ describe 'lamp_role::apache2' do
 
     it 'should install custom template for default site' do
       expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('ServerSignature Off')
+    end
+
+    it 'should catch all enabled ports' do
+      expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('<VirtualHost *:*>')
     end
 
     it 'should reload apache after template installation' do
