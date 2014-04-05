@@ -23,7 +23,7 @@ describe 'lamp_role::apache2' do
     end
 
     it 'should catch all enabled ports' do
-      expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('<VirtualHost *:*>')
+      expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('<VirtualHost *>')
     end
 
     it 'should reload apache after template installation' do
