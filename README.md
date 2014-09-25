@@ -13,7 +13,7 @@ This cookbook is currently tested with the following setup:
 
 This cookbook depends on the following cookbooks
 
-* [apache2](https://github.com/opscode-cookbooks/apache2)
+* [apache2](https://github.com/opscode-cookbooks/apache2) (~> 1.9.6)
 * [php](https://github.com/opscode-cookbooks/php)
 * [ssl](https://github.com/cap10morgan/ssl-cookbook)
 * [mysql_role](https://github.com/fabn/chef-mysql_role)
@@ -22,6 +22,8 @@ On Ubuntu/Debian, use Opscode's `apt` cookbook to ensure the package
 cache is updated so Chef can install packages, or consider putting
 apt-get in your bootstrap process or
 [knife bootstrap template](http://wiki.opscode.com/display/chef/Knife+Bootstrap).
+
+This cookbook (current version) will not work with apache 2.4 and ubuntu 14.04.
 
 # Usage
 
