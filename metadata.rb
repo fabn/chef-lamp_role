@@ -9,7 +9,7 @@ version          '0.1.0'
 supports 'ubuntu'
 
 depends 'mysql_role'
-depends 'apache2'
+depends 'apache2', '>= 2.0.0'
 depends 'php'
 # Optional dependencies of php_application definition
 depends 'ssl'
