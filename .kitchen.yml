@@ -19,6 +19,9 @@ suites:
       # Integration tests for php applications
       - recipe[lamp_role::_integration]
     attributes:
+      apt:
+        # Force apt to update package cache at compile time
+        compile_time_update: true
       mysql:
         server_root_password: rootpass
         server_debian_password: debpass
