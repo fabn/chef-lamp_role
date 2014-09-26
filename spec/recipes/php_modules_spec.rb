@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'lamp_role::php_modules' do
 
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::Runner.new(log_level: :fatal) do |node|
       # Change default values in attributes
       node.set[:lamp][:apc][:memory] = '256M'
       node.set[:lamp][:apc][:slam_defense] = true

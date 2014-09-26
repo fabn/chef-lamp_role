@@ -3,9 +3,13 @@ require 'spec_helper'
 describe 'lamp_role::apache2' do
 
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::Runner.new(log_level: :fatal) do |node|
       node.set[:apache][:listen_ports] = [8080]
     end.converge(described_recipe)
+  end
+
+  before do
+    stub_command('/usr/sbin/apache2 -t').and_return('')
   end
 
   describe 'Server status handler' do

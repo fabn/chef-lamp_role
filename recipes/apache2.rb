@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+# Override default site provided by apache2 cookbook
+node.override[:apache][:default_site_enabled] = false if node[:apache][:override_default_site]
+
 # Install apache webserver
 include_recipe 'apache2'
 
@@ -24,13 +27,20 @@ include_recipe 'apache2'
 package(node[:lamp][:www_browser])
 
 # Restrictive version of default site template, which return not found for every request
-template("#{node[:apache][:dir]}/sites-available/default") {
+template("#{node[:apache][:dir]}/sites-available/default") do
   source 'default-site.erb'
   owner 'root'
   group node[:apache][:root_group]
   mode '0644'
   notifies :restart, 'service[apache2]'
-}
+  only_if { node[:apache][:override_default_site] }
+end
+
+# Enable overridden virtual host for default site
+apache_site '000-default' do
+  enable node[:apache][:override_default_site]
+end
+
 
 # Rewrite ports file to enable virtual host on every port
 template "#{node['apache']['dir']}/ports.conf" do
