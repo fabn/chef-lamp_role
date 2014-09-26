@@ -13,8 +13,9 @@ describe 'lamp_role::php_modules' do
   describe 'APC module configuration' do
 
     it 'should install apc configuration file' do
-      expect(chef_run).to render_file('/etc/php5/conf.d/apc.ini').with_content('256M')
-      expect(chef_run).to render_file('/etc/php5/conf.d/apc.ini').with_content('apc.slam_defense = on')
+      expect(chef_run).to render_file('/etc/php5/mods-available/apc.ini').with_content('apcu.so')
+      expect(chef_run).to render_file('/etc/php5/mods-available/apc.ini').with_content('256M')
+      expect(chef_run).to render_file('/etc/php5/mods-available/apc.ini').with_content('apc.slam_defense = on')
     end
 
   end

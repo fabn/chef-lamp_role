@@ -23,7 +23,7 @@ end
 
 if node[:lamp][:php_modules].include?('apc')
 # Generate apc.ini configuration
-  template '/etc/php5/conf.d/apc.ini' do
+  template '/etc/php5/mods-available/apc.ini' do
     source 'apc.ini.erb'
     owner 'root'
     group 'root'
