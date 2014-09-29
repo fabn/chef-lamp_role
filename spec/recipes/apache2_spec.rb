@@ -30,6 +30,10 @@ describe 'lamp_role::apache2' do
       expect(chef_run).to render_file('/etc/apache2/sites-available/default.conf').with_content('<VirtualHost *>')
     end
 
+    it 'should enable server status in default virtual host' do
+      expect(chef_run).to render_file('/etc/apache2/sites-available/default.conf').with_content('<Location /server-status>')
+    end
+
     it 'should reload apache after template installation' do
       resource = chef_run.template('/etc/apache2/sites-available/default.conf')
       expect(resource).to notify('service[apache2]').to(:restart)

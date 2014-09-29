@@ -4,6 +4,12 @@
     AllowOverride None
   </Directory>
 
+  # Allow server status for local requests only
+  <Location /server-status>
+    SetHandler server-status
+    Require local
+  </Location>
+
   ErrorLog <%= node[:apache][:log_dir] %>/<%= node[:apache][:error_log] %>
 
   # Possible values include: debug, info, notice, warn, error, crit,
