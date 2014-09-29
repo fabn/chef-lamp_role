@@ -9,7 +9,7 @@ describe 'Apache Installation' do
 
   describe 'Apache modules' do
 
-    describe command('apache2 -M') do
+    describe command('apache2ctl -M') do
 
       # list required modules, list is from attribute file
       %w[status alias auth_basic authn_file autoindex expires dir env mime negotiation setenvif rewrite php5].each do |mod|
