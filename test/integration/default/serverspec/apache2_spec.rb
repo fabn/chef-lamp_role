@@ -44,7 +44,7 @@ describe 'Apache Installation' do
 
     describe command('apache2ctl -S') do
       # Default site should be active
-      it { should return_stdout %r{default server .* \(/etc/apache2/sites-enabled/000-default:\d+\)} }
+      it { should return_stdout %r{default server .* \(\/etc\/apache2\/sites-enabled\/000-default.conf:\d+\)} }
     end
 
     describe command('curl http://localhost/') do
