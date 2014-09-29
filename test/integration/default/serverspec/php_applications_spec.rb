@@ -49,7 +49,7 @@ describe 'Dummy applications' do
     # Test ssl redirection
     describe command(%q{curl -s -H 'Host: mysql.example.com' localhost}) do
       it 'should be able to connect to the database' do
-        pending 'TODO Generate fake ssl certificate and change _integration recipe'
+        skip 'TODO Generate fake ssl certificate and change _integration recipe'
         should return_stdout %r{The document has moved <a href="https://mysql.example.com/">here</a>}
       end
     end
