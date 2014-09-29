@@ -40,14 +40,3 @@ end
 apache_site '000-default' do
   enable node[:apache][:override_default_site]
 end
-
-
-# Rewrite ports file to enable virtual host on every port
-template "#{node['apache']['dir']}/ports.conf" do
-  source   'ports.conf.erb'
-  owner    'root'
-  group    node['apache']['root_group']
-  mode     '0644'
-  notifies :restart, 'service[apache2]'
-end
-
