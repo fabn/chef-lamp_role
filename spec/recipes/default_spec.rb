@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe 'lamp_role::default' do
+RSpec.describe 'lamp_role::default' do
 
   subject do
     ChefSpec::Runner.new(log_level: :fatal) do |node|

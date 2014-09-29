@@ -18,7 +18,7 @@
 #
 
 # This is coming from other cookbook
-# include_recipe 'mysql_role::default'
+include_recipe 'mysql_role::default'
 # Install and tune apache2
 include_recipe 'lamp_role::apache2'
 # Install php and usual modules
