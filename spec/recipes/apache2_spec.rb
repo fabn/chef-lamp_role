@@ -23,15 +23,15 @@ describe 'lamp_role::apache2' do
   describe 'Default site configuration' do
 
     it 'should install custom template for default site' do
-      expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('ServerSignature Off')
+      expect(chef_run).to render_file('/etc/apache2/sites-available/default.conf').with_content('ServerSignature Off')
     end
 
     it 'should catch all enabled ports' do
-      expect(chef_run).to render_file('/etc/apache2/sites-available/default').with_content('<VirtualHost *>')
+      expect(chef_run).to render_file('/etc/apache2/sites-available/default.conf').with_content('<VirtualHost *>')
     end
 
     it 'should reload apache after template installation' do
-      resource = chef_run.template('/etc/apache2/sites-available/default')
+      resource = chef_run.template('/etc/apache2/sites-available/default.conf')
       expect(resource).to notify('service[apache2]').to(:restart)
     end
 

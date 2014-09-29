@@ -27,8 +27,8 @@ include_recipe 'apache2'
 package(node[:lamp][:www_browser])
 
 # Restrictive version of default site template, which return not found for every request
-template("#{node[:apache][:dir]}/sites-available/default") do
-  source 'default-site.erb'
+template("#{node[:apache][:dir]}/sites-available/default.conf") do
+  source 'default-site.conf.erb'
   owner 'root'
   group node[:apache][:root_group]
   mode '0644'
