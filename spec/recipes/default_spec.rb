@@ -1,9 +1,7 @@
-require 'spec_helper'
-
-describe 'lamp_role::default' do
+RSpec.describe 'lamp_role::default' do
 
   subject do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::Runner.new(log_level: :fatal) do |node|
       node.set[:mysql][:server_root_password] = 'rootpass'
       node.set[:mysql][:server_debian_password] = 'debpass'
       node.set[:mysql][:server_repl_password] = 'replpass'
@@ -12,6 +10,7 @@ describe 'lamp_role::default' do
 
   before do
     stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return('')
+    stub_command('/usr/sbin/apache2 -t').and_return('')
   end
 
   %w(mysql_role::default lamp_role::apache2 lamp_role::php lamp_role::php_modules).each do |recipe|

@@ -49,7 +49,7 @@ describe 'Dummy applications' do
     # Test ssl redirection
     describe command(%q{curl -s -H 'Host: mysql.example.com' localhost}) do
       it 'should be able to connect to the database' do
-        pending 'TODO Generate fake ssl certificate and change _integration recipe'
+        skip 'TODO Generate fake ssl certificate and change _integration recipe'
         should return_stdout %r{The document has moved <a href="https://mysql.example.com/">here</a>}
       end
     end
@@ -86,10 +86,17 @@ describe 'Dummy applications' do
     # Test that directives have effect
     describe command(%q{curl -s -H 'Host: config.example.com' localhost}) do
 
-      it { should return_stdout %r{<td class="e">memory_limit</td><td class="v">10M</td>} }
-      it { should return_stdout %r{<td class="e">session.name</td><td class="v">Custom</td>} }
-      it { should return_stdout %r{<td class="e">display_errors</td><td class="v">Off</td>} }
-      it { should return_stdout %r{<td class="e">file_uploads</td><td class="v">Off</td>} }
+      # Latest version of phpinfo returns 'invalid byte sequence in US-ASCII', this line fix the issue
+      let(:normalized_command_output) { subject.stdout.force_encoding('UTF-8') }
+
+      describe 'Normalized command output' do
+
+        it { normalized_command_output.should include %q{<td class="e">memory_limit</td><td class="v">10M</td>} }
+        it { normalized_command_output.should include %q{<td class="e">session.name</td><td class="v">Custom</td>} }
+        it { normalized_command_output.should include %q{<td class="e">display_errors</td><td class="v">Off</td>} }
+        it { normalized_command_output.should include %q{<td class="e">file_uploads</td><td class="v">Off</td>} }
+
+      end
 
     end
 

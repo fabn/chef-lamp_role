@@ -17,5 +17,11 @@
 # limitations under the License.
 #
 
+=begin
+#<
+Simple wrapper for opscode php cookbook.
+#>
+=end
+
 # Install php from packages
 include_recipe 'php'

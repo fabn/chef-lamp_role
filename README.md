@@ -1,73 +1,99 @@
-# LAMP cookbook [![Build Status](https://travis-ci.org/fabn/chef-lamp_role.svg)](https://travis-ci.org/fabn/chef-lamp_role)
+# Description
+
+# LAMP cookbook
+
+[![Build Status](https://travis-ci.org/fabn/chef-lamp_role.svg)](https://travis-ci.org/fabn/chef-lamp_role)
 
 [Role wrapper cookbook](http://www.getchef.com/blog/2013/12/03/doing-wrapper-cookbooks-right/) for LAMP stack.
 
-This cookbook provides a full LAMP stack on Debian/Ubuntu platform.
+This cookbook provides a full LAMP stack on Ubuntu LTS platform, just include default recipe to get a full LAMP stack.
+
+Currently tested with the following setup:
+
+* Chef: 11.10.4
+* Ubuntu 14.04
+
+This cookbook (current version) will not work with apache 2.2 and ubuntu < 13.10.
 
 # Requirements
 
-This cookbook is currently tested with the following setup:
+## Platform:
 
-* Chef: 11.10.4
-* Ubuntu 12.04
+* Ubuntu (>= 13.10)
 
-This cookbook depends on the following cookbooks
+## Cookbooks:
 
-* [apache2](https://github.com/opscode-cookbooks/apache2) (~> 1.9.6)
-* [php](https://github.com/opscode-cookbooks/php)
-* [ssl](https://github.com/cap10morgan/ssl-cookbook)
-* [mysql_role](https://github.com/fabn/chef-mysql_role)
-
-On Ubuntu/Debian, use Opscode's `apt` cookbook to ensure the package
-cache is updated so Chef can install packages, or consider putting
-apt-get in your bootstrap process or
-[knife bootstrap template](http://wiki.opscode.com/display/chef/Knife+Bootstrap).
-
-This cookbook (current version) will not work with apache 2.4 and ubuntu 14.04.
-
-# Usage
-
-Include default recipe to get a full LAMP stack.
+* mysql_role (~> 0.1)
+* apache2 (>= 2.0.0)
+* php
+* ssl
 
 # Attributes
 
-This cookbook rewrite some apache2 attributes to suit LAMP stack need. You will likely edit some of them.
-See [attributes file](attributes/default.rb) for latest version of overridden attributes
-
-The following attributes are added by this cookbook
-
-# Additional attributes for apache default recipe
-default[:lamp][:www_browser] = 'w3m' # Name of a package which provides www-browser
-
-# Default php modules
-default[:lamp][:php_modules] = %w(mysql gd apc curl)
-
-* `node[:lamp][:www_browser]` - textual browser package used to setup `apache2ctl status` command. Default `w3m`
-* `node[:lamp][:php_modules]` - PHP installed modules. Default `%w(mysql gd apc curl)`
-
-These other attributes are used in `php_application` definition described below
-
-* `node[:php_applications][:applications_bag]` - reserved for future use.
-* `node[:php_applications][:apps_path]` - Base path where to put php applications. Default `node[:apache][:docroot_dir]`
-* `node[:php_applications][:user]` - Default owner for php applications. Default `node[:apache][:user]`
-* `node[:php_applications][:group]` - Default group for php applications. Default `node[:apache][:group]`
-* `node[:php_applications][:mysql_admin_credentials][:host]` - Database host where to create db users. Default `localhost`
-* `node[:php_applications][:mysql_admin_credentials][:username]` - Administrative database user for creating db users. Default `root`
-* `node[:php_applications][:mysql_admin_credentials][:password]` - Administrative database password for creating db users. Default `node[:mysql][:server_root_password]`
+* `node[:apache][:default_modules]` -  Defaults to `"%w("`.
+* `node[:apache][:prefork][:startservers]` -  Defaults to `"8"`.
+* `node[:apache][:prefork][:minspareservers]` -  Defaults to `"8"`.
+* `node[:apache][:prefork][:maxspareservers]` -  Defaults to `"16"`.
+* `node[:apache][:prefork][:serverlimit]` -  Defaults to `"200"`.
+* `node[:apache][:prefork][:maxclients]` -  Defaults to `"200"`.
+* `node[:apache][:prefork][:maxrequestsperchild]` -  Defaults to `"10_000"`.
+* `node[:apache][:override_default_site]` - Whether to override apache2 default site with a deny all configuration. Defaults to `"true"`.
+* `node[:lamp][:www_browser]` - Name of a package which provides www-browser in Ubuntu. Defaults to `"w3m"`.
+* `node[:lamp][:php_modules]` - Default php modules installed by `php_modules` recipe. Defaults to `"%w(mysql gd apc curl)"`.
+* `node[:lamp][:apc][:memory]` - APC memory size. Defaults to `"128M"`.
+* `node[:lamp][:apc][:slam_defense]` - APC slam defense suppression. Defaults to `"false"`.
+* `node[:php_applications][:applications_bag]` - Reserved for future usage. Defaults to `"php_applications"`.
+* `node[:php_applications][:apps_path]` - Base path where to put php applications. Defaults to `"node[:apache][:docroot_dir]"`.
+* `node[:php_applications][:user]` - Default owner for php applications. Defaults to `"node[:apache][:user]"`.
+* `node[:php_applications][:group]` - Default group for php applications. Defaults to `"node[:apache][:group]"`.
+* `node[:php_applications][:mysql_admin_credentials][:host]` - Database host where to create db users. Defaults to `"localhost"`.
+* `node[:php_applications][:mysql_admin_credentials][:username]` - Administrative database user for creating db users. Defaults to `"root"`.
+* `node[:php_applications][:mysql_admin_credentials][:password]` - Administrative database password for creating db users. Defaults to `"node[:mysql][:server_root_password]"`.
 
 # Recipes
 
-## Default
+* [lamp_role::apache2](#lamp_roleapache2) - Installs Apache2 webserver and configures its default host.
+* [lamp_role::default](#lamp_roledefault) - Installs Apache2, PHP and MySQL on the target host.
+* [lamp_role::php](#lamp_rolephp) - Simple wrapper for opscode php cookbook.
+* [lamp_role::php_modules](#lamp_rolephp_modules) - Attribute driven wrapper for opscode php::module_xxx recipes.
 
-Install Apache2, PHP and MySQL on the target host. Apache default virtual host is overridden with [this template](templates/default/default-site.erb)
-i.e. is configured to respond with '404 Not found' on every request.
+## lamp_role::apache2
 
-Apache status is configured to respond on virtual host only, this can be useful in order to setup monit with apache protocol.
+Installs Apache2 webserver and configures its default host.
 
-PHP is installed with modules given in attributes and prepared for MySQL integration.
+## lamp_role::default
 
-MySQL is configured using [this role cookbook](https://github.com/fabn/chef-mysql_role)
+Installs Apache2, PHP and MySQL on the target host.
 
+Apache default virtual host is overridden with [this template](templates/default/default-site.erb)
+  i.e. is configured to respond with '404 Not found' on every request.
+
+Apache status is configured to respond on virtual host only,
+this can be useful in order to setup monit with apache protocol.  
+
+PHP is installed with modules given in attributes and prepared for MySQL integration.  
+
+MySQL is configured using [this role cookbook](https://github.com/fabn/chef-mysql_role) 
+
+
+## lamp_role::php
+
+Simple wrapper for opscode php cookbook.
+
+## lamp_role::php_modules
+
+Attribute driven wrapper for opscode php::module_xxx recipes.
+
+# Definitions
+
+* [php_application](#php_application)
+
+## php_application
+
+
+### Parameters
+
+- enable: . Defaults to: true
 # Definitions
 
 ## php\_application
@@ -109,6 +135,9 @@ end
 Full usage of this definition is shown in [this recipe](recipes/_integration.rb) and its
  [serverspec](test/integration/default/serverspec/php_applications_spec.rb)
 
-# Author
 
-Author:: Fabio Napoleoni (<f.napoleoni@gmail.com>)
+# License and Maintainer
+
+Maintainer:: Fabio Napoleoni (<f.napoleoni@gmail.com>)
+
+License:: Apache 2.0
