@@ -31,7 +31,7 @@ end
 
 # Site content as a dummy file
 file '/var/www/php.example.com/index.php' do
-  content %q{<? echo "Hello world";}
+  content %q{<?php echo "Hello world";}
 end
 
 # MySQL application

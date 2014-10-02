@@ -30,8 +30,8 @@
   <Directory <%= @params[:document_root] %>>
     Options <%= [@params[:directory_options] || 'FollowSymLinks' ].flatten.join ' ' %>
     AllowOverride <%= [@params[:allow_override] || 'None' ].flatten.join ' ' %>
-    Order allow,deny
-    Allow from all
+    # 2.4 syntax
+    Require all granted
   </Directory>
 
   LogLevel warn
@@ -39,8 +39,7 @@
   CustomLog <%= node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
 
   RewriteEngine On
-  RewriteLog <%= node[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
-  RewriteLogLevel 0
+  LogLevel info rewrite:trace1
 
   <%- if @params[:canonical_hostname] -%>
   # Canonical host, <%= @params[:canonical_hostname] %>
