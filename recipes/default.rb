@@ -17,6 +17,23 @@
 # limitations under the License.
 #
 
+=begin
+#<
+Installs Apache2, PHP and MySQL on the target host.
+
+Apache default virtual host is overridden with [this template](templates/default/default-site.erb)
+  i.e. is configured to respond with '404 Not found' on every request.
+
+Apache status is configured to respond on virtual host only,
+this can be useful in order to setup monit with apache protocol.  
+
+PHP is installed with modules given in attributes and prepared for MySQL integration.  
+
+MySQL is configured using [this role cookbook](https://github.com/fabn/chef-mysql_role) 
+
+#>
+=end
+
 # This is coming from other cookbook
 include_recipe 'mysql_role::default'
 # Install and tune apache2

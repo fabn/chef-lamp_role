@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+=begin
+#<
+Installs Apache2 webserver and configures its default host.
+#>
+=end
+
 # Override default site provided by apache2 cookbook
 node.override[:apache][:default_site_enabled] = false if node[:apache][:override_default_site]
 

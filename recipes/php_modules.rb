@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+=begin
+#<
+Attribute driven wrapper for opscode php::module_xxx recipes.
+#>
+=end
+
 node[:lamp][:php_modules].each do |mod|
   include_recipe "php::module_#{mod}"
 end

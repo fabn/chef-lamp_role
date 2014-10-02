@@ -12,16 +12,17 @@ default[:apache][:prefork][:serverlimit]         = 200
 default[:apache][:prefork][:maxclients]          = 200
 default[:apache][:prefork][:maxrequestsperchild] = 10_000
 
-# Default site overridden with deny all configuration
+#<> Whether to override apache2 default site with a deny all configuration
 default[:apache][:override_default_site] = true
 
-# Additional attributes for apache default recipe
-default[:lamp][:www_browser] = 'w3m' # Name of a package which provides www-browser
+#<> Name of a package which provides www-browser in Ubuntu
+default[:lamp][:www_browser] = 'w3m'
 
-# Default php modules
+#<> Default php modules installed by `php_modules` recipe
 default[:lamp][:php_modules] = %w(mysql gd apc curl)
 
-# Apc configuration
+#<> APC memory size
 default[:lamp][:apc][:memory] = '128M'
+#<> APC slam defense suppression
 default[:lamp][:apc][:slam_defense] = false
 
